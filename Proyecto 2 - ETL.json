@@ -1,0 +1,3118 @@
+{
+	"jobConfig": {
+		"name": "Proyecto 2 - ETL",
+		"description": "",
+		"role": "arn:aws:iam::886145748253:role/LabRole",
+		"command": "glueetl",
+		"version": "4.0",
+		"runtime": null,
+		"workerType": "G.1X",
+		"numberOfWorkers": 10,
+		"maxCapacity": 10,
+		"maxRetries": 0,
+		"timeout": 2880,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "Proyecto 2 - ETL.py",
+		"scriptLocation": "s3://aws-glue-assets-886145748253-us-east-1/scripts/",
+		"language": "python-3",
+		"spark": true,
+		"sparkConfiguration": "standard",
+		"jobParameters": [],
+		"tags": [],
+		"jobMode": "VISUAL_MODE",
+		"createdOn": "2023-12-01T05:06:00.200Z",
+		"developerMode": false,
+		"connectionsList": [
+			"Jdbc connection"
+		],
+		"temporaryDirectory": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+		"logging": true,
+		"glueHiveMetastore": true,
+		"etlAutoTuning": false,
+		"metrics": true,
+		"observabilityMetrics": true,
+		"pythonPath": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_common.py,s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_uuid.py,s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_derived.py",
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-886145748253-us-east-1/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null
+	},
+	"dag": {
+		"node-1701563060054": {
+			"nodeId": "node-1701563060054",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701592648405",
+				"node-1701592741462"
+			],
+			"name": "SQL Query",
+			"generatedNodeName": "SQLQuery_node1701563060054",
+			"classification": "Transform",
+			"type": "SqlCode",
+			"sqlAliases": [
+				{
+					"from": "node-1701592648405",
+					"alias": "myDataSource"
+				},
+				{
+					"from": "node-1701592741462",
+					"alias": "myDataSource2"
+				}
+			],
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "tieneasma",
+						"fullPath": [
+							"tieneasma"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "estrato",
+						"fullPath": [
+							"estrato"
+						],
+						"type": "float",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpared",
+						"fullPath": [
+							"materialpared"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "humedad",
+						"fullPath": [
+							"humedad"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"sqlQuery": "-- Seleccionar todas las filas de la tabla1\nSELECT *, LOWER(localidad) AS localidad\nFROM myDataSource\n\n-- Unir con todas las filas de la tabla2\nUNION ALL\n\n-- Seleccionar todas las filas de la tabla2\nSELECT *, LOWER(localidad) AS localidad\nFROM myDataSource2;",
+			"codeGenVersion": 2
+		},
+		"node-1701628968630": {
+			"nodeId": "node-1701628968630",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701409638716"
+			],
+			"name": "Drop Null Fields 2017",
+			"generatedNodeName": "DropNullFields2017_node1701628968630",
+			"classification": "Transform",
+			"type": "DropNullFields",
+			"nullCheckBoxList": {
+				"isEmpty": true,
+				"isNullString": true,
+				"isNegOne": true
+			},
+			"nullTextList": [],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701653891513": {
+			"nodeId": "node-1701653891513",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701593664198"
+			],
+			"name": "Change Schema Material Pared Fact",
+			"generatedNodeName": "ChangeSchemaMaterialParedFact_node1701653891513",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"localidad"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tieneasma",
+					"fromPath": [
+						"tieneasma"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"estrato"
+					],
+					"toType": "float",
+					"fromType": "float",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpared",
+					"fromPath": [
+						"materialpared"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "materialpiso",
+					"fromPath": [
+						"materialpiso"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"humedad"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "fecha",
+					"fromPath": [
+						"fecha"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "uuidencuestado",
+					"fromPath": [
+						"uuidencuestado"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701598036600": {
+			"nodeId": "node-1701598036600",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701563060054"
+			],
+			"name": "SQL Query",
+			"generatedNodeName": "SQLQuery_node1701598036600",
+			"classification": "Transform",
+			"type": "SqlCode",
+			"sqlAliases": [
+				{
+					"from": "node-1701563060054",
+					"alias": "myDataSource"
+				}
+			],
+			"outputSchemas": [
+				[
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"sqlQuery": "select distinct materialPiso from myDataSource",
+			"codeGenVersion": 2
+		},
+		"node-1701644940183": {
+			"nodeId": "node-1701644940183",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701644916713"
+			],
+			"name": "Cargar Localidad Dim",
+			"generatedNodeName": "CargarLocalidadDim_node1701644940183",
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"streamingBatchInterval": 100,
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"connection": {
+					"value": "Jdbc connection",
+					"label": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"value": "public",
+					"label": "public",
+					"description": null
+				},
+				"catalogDatabase": null,
+				"catalogRedshiftTable": null,
+				"catalogRedshiftSchema": null,
+				"table": {
+					"value": "localidaddim",
+					"label": "localidaddim",
+					"description": "public"
+				},
+				"catalogTable": null,
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"iamRole": null,
+				"sampleQuery": null,
+				"preAction": null,
+				"postAction": null,
+				"action": "drop",
+				"tableSchema": [
+					{
+						"value": "localidad",
+						"label": "localidad",
+						"description": "VARCHAR"
+					},
+					{
+						"value": "uuidlocalidad",
+						"label": "uuidlocalidad",
+						"description": "VARCHAR"
+					}
+				],
+				"selectedColumns": [],
+				"crawlerConnection": null,
+				"tablePrefix": null,
+				"upsert": false,
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"mergeClause": null,
+				"stagingTable": "public.localidaddim_temp_b49a0f",
+				"advancedOptions": []
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701653914289": {
+			"nodeId": "node-1701653914289",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701593664198"
+			],
+			"name": "Change Schema Humedad Fact",
+			"generatedNodeName": "ChangeSchemaHumedadFact_node1701653914289",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"localidad"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tieneasma",
+					"fromPath": [
+						"tieneasma"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"estrato"
+					],
+					"toType": "float",
+					"fromType": "float",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpared",
+					"fromPath": [
+						"materialpared"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpiso",
+					"fromPath": [
+						"materialpiso"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"humedad"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "fecha",
+					"fromPath": [
+						"fecha"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "uuidencuestado",
+					"fromPath": [
+						"uuidencuestado"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701644916713": {
+			"nodeId": "node-1701644916713",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701644401802"
+			],
+			"name": "UUIDLocalidad",
+			"generatedNodeName": "UUIDLocalidad_node1701644916713",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"UUIDLocalidad"
+					],
+					"isOptional": true,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_uuid",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_uuid.py",
+			"version": "1.0.0",
+			"transformName": "gs_uuid",
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "uuidlocalidad",
+						"fullPath": [
+							"uuidlocalidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701655443243": {
+			"nodeId": "node-1701655443243",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701653870386"
+			],
+			"name": "FilterTieneAsma",
+			"generatedNodeName": "FilterTieneAsma_node1701655443243",
+			"classification": "Transform",
+			"type": "Filter",
+			"logicalOperator": "AND",
+			"filters": [
+				{
+					"operation": "EQ",
+					"negated": false,
+					"values": [
+						{
+							"type": "COLUMNEXTRACTED",
+							"value": "tieneasma"
+						},
+						{
+							"type": "CONSTANT",
+							"value": [
+								"1"
+							]
+						}
+					]
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2,
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string"
+					},
+					{
+						"key": "tieneasma",
+						"fullPath": [
+							"tieneasma"
+						],
+						"type": "int"
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int"
+					},
+					{
+						"key": "uuidencuestado",
+						"fullPath": [
+							"uuidencuestado"
+						],
+						"type": "string"
+					}
+				]
+			]
+		},
+		"node-1701592648405": {
+			"nodeId": "node-1701592648405",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701409790577"
+			],
+			"name": "Agregar fecha 2017",
+			"generatedNodeName": "Agregarfecha2017_node1701592648405",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"fecha"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				},
+				{
+					"name": "expr",
+					"value": [
+						"2017"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_derived",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_derived.py",
+			"version": "1.0.0",
+			"transformName": "gs_derived",
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "tieneasma",
+						"fullPath": [
+							"tieneasma"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "estrato",
+						"fullPath": [
+							"estrato"
+						],
+						"type": "float",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpared",
+						"fullPath": [
+							"materialpared"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "humedad",
+						"fullPath": [
+							"humedad"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701631253787": {
+			"nodeId": "node-1701631253787",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701627464203"
+			],
+			"name": "Cargar Material Piso Dim",
+			"generatedNodeName": "CargarMaterialPisoDim_node1701631253787",
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"streamingBatchInterval": 100,
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"connection": {
+					"value": "Jdbc connection",
+					"label": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"value": "public",
+					"label": "public",
+					"description": null
+				},
+				"catalogDatabase": null,
+				"catalogRedshiftTable": null,
+				"catalogRedshiftSchema": null,
+				"table": {
+					"value": "materialPisoDim",
+					"label": "materialPisoDim",
+					"description": "public"
+				},
+				"catalogTable": null,
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"iamRole": null,
+				"sampleQuery": null,
+				"preAction": null,
+				"postAction": null,
+				"action": "drop",
+				"tableSchema": [
+					{
+						"value": "materialpiso",
+						"label": "materialpiso",
+						"description": "INTEGER"
+					},
+					{
+						"value": "nombre",
+						"label": "nombre",
+						"description": "VARCHAR"
+					}
+				],
+				"selectedColumns": [],
+				"crawlerConnection": null,
+				"tablePrefix": null,
+				"upsert": false,
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"mergeClause": null,
+				"stagingTable": "public.materialPisoDim_temp_1a51c4",
+				"advancedOptions": []
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701627464203": {
+			"nodeId": "node-1701627464203",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701598036600"
+			],
+			"name": "Derived Column",
+			"generatedNodeName": "DerivedColumn_node1701627464203",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"nombre"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				},
+				{
+					"name": "expr",
+					"value": [
+						"CASE                  WHEN materialPiso = 1 THEN 'Alfombra o tapete de pared a pared'                  WHEN materialPiso = 2 THEN 'Madera pulida y lacada, parqué'   \t\tWHEN materialPiso = 3 THEN 'Mármol'   \t\tWHEN materialPiso = 4 THEN 'Baldosa, vinilo, tableta, ladrillo, laminado o flotante'   \t\tWHEN materialPiso = 5 THEN 'Madera burda, tabla o tablón, otro vegetal '  \t\tWHEN materialPiso = 6 THEN 'Cemento, gravilla '                  ELSE 'Tierra, arena'  END"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_derived",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_derived.py",
+			"version": "1.0.0",
+			"transformName": "gs_derived",
+			"outputSchemas": [
+				[
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nombre",
+						"fullPath": [
+							"nombre"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701655510545": {
+			"nodeId": "node-1701655510545",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701593824725"
+			],
+			"name": "FiltrarTieneAsma",
+			"generatedNodeName": "FiltrarTieneAsma_node1701655510545",
+			"classification": "Transform",
+			"type": "Filter",
+			"logicalOperator": "AND",
+			"filters": [
+				{
+					"operation": "EQ",
+					"negated": false,
+					"values": [
+						{
+							"type": "COLUMNEXTRACTED",
+							"value": "tieneasma"
+						},
+						{
+							"type": "CONSTANT",
+							"value": [
+								"1"
+							]
+						}
+					]
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701592741462": {
+			"nodeId": "node-1701592741462",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701409806058"
+			],
+			"name": "Agregar fecha 2021",
+			"generatedNodeName": "Agregarfecha2021_node1701592741462",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"fecha"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				},
+				{
+					"name": "expr",
+					"value": [
+						"2021"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_derived",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_derived.py",
+			"version": "1.0.0",
+			"transformName": "gs_derived",
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "tieneasma",
+						"fullPath": [
+							"tieneasma"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "estrato",
+						"fullPath": [
+							"estrato"
+						],
+						"type": "float",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialparedes",
+						"fullPath": [
+							"materialparedes"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "humedad",
+						"fullPath": [
+							"humedad"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701645187304": {
+			"nodeId": "node-1701645187304",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701563060054"
+			],
+			"name": "SQL Query",
+			"generatedNodeName": "SQLQuery_node1701645187304",
+			"classification": "Transform",
+			"type": "SqlCode",
+			"sqlAliases": [
+				{
+					"from": "node-1701563060054",
+					"alias": "myDataSource"
+				}
+			],
+			"outputSchemas": [
+				[
+					{
+						"key": "materialpared",
+						"fullPath": [
+							"materialpared"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"sqlQuery": "select distinct materialPared from myDataSource",
+			"codeGenVersion": 2
+		},
+		"node-1701593824725": {
+			"nodeId": "node-1701593824725",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701593664198"
+			],
+			"name": "Change Schema MaterialPiso Fact",
+			"generatedNodeName": "ChangeSchemaMaterialPisoFact_node1701593824725",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"localidad"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tieneasma",
+					"fromPath": [
+						"tieneasma"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"estrato"
+					],
+					"toType": "float",
+					"fromType": "float",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpared",
+					"fromPath": [
+						"materialpared"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpiso",
+					"fromPath": [
+						"materialpiso"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"humedad"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "fecha",
+					"fromPath": [
+						"fecha"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "uuidencuestado",
+					"fromPath": [
+						"uuidencuestado"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701596553487": {
+			"nodeId": "node-1701596553487",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701655510545"
+			],
+			"name": "Aggregate Asma",
+			"generatedNodeName": "AggregateAsma_node1701596553487",
+			"classification": "Transform",
+			"type": "Aggregate",
+			"parentsValid": true,
+			"calculatedType": "",
+			"groups": [
+				"materialpiso",
+				"fecha"
+			],
+			"aggs": [
+				{
+					"column": "tieneasma",
+					"aggFunc": "sum"
+				}
+			],
+			"codeGenVersion": 2,
+			"outputSchemas": [
+				[
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int"
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int"
+					},
+					{
+						"key": "sum(tieneasma)",
+						"fullPath": [
+							"sum(tieneasma)"
+						],
+						"type": "long"
+					}
+				]
+			]
+		},
+		"node-1701645671642": {
+			"nodeId": "node-1701645671642",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701645627033"
+			],
+			"name": "Cargar Material Pared Dim",
+			"generatedNodeName": "CargarMaterialParedDim_node1701645671642",
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"streamingBatchInterval": 100,
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"connection": {
+					"value": "Jdbc connection",
+					"label": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"value": "public",
+					"label": "public",
+					"description": null
+				},
+				"catalogDatabase": null,
+				"catalogRedshiftTable": null,
+				"catalogRedshiftSchema": null,
+				"table": {
+					"value": "materialpareddim",
+					"label": "materialpareddim",
+					"description": "public"
+				},
+				"catalogTable": null,
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"iamRole": null,
+				"sampleQuery": null,
+				"preAction": null,
+				"postAction": null,
+				"action": "append",
+				"tableSchema": [
+					{
+						"value": "materialpared",
+						"label": "materialpared",
+						"description": "INTEGER"
+					},
+					{
+						"value": "nombre",
+						"label": "nombre",
+						"description": "VARCHAR"
+					}
+				],
+				"selectedColumns": [],
+				"crawlerConnection": null,
+				"tablePrefix": null,
+				"upsert": false,
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"mergeClause": null,
+				"stagingTable": "public.materialpareddim_temp_7c5cb3",
+				"advancedOptions": []
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701653870386": {
+			"nodeId": "node-1701653870386",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701593664198"
+			],
+			"name": "Change Schema Localidad Fact",
+			"generatedNodeName": "ChangeSchemaLocalidadFact_node1701653870386",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"localidad"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "tieneasma",
+					"fromPath": [
+						"tieneasma"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"estrato"
+					],
+					"toType": "float",
+					"fromType": "float",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpared",
+					"fromPath": [
+						"materialpared"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpiso",
+					"fromPath": [
+						"materialpiso"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"humedad"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "fecha",
+					"fromPath": [
+						"fecha"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "uuidencuestado",
+					"fromPath": [
+						"uuidencuestado"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701593664198": {
+			"nodeId": "node-1701593664198",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701563060054"
+			],
+			"name": "Agregar PK Encuestado",
+			"generatedNodeName": "AgregarPKEncuestado_node1701593664198",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"UUIDEncuestado"
+					],
+					"isOptional": true,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_uuid",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_uuid.py",
+			"version": "1.0.0",
+			"transformName": "gs_uuid",
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "tieneasma",
+						"fullPath": [
+							"tieneasma"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "estrato",
+						"fullPath": [
+							"estrato"
+						],
+						"type": "float",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpared",
+						"fullPath": [
+							"materialpared"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "humedad",
+						"fullPath": [
+							"humedad"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "uuidencuestado",
+						"fullPath": [
+							"uuidencuestado"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701631211206": {
+			"nodeId": "node-1701631211206",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701596553487"
+			],
+			"name": "Load Material Piso Fact",
+			"generatedNodeName": "LoadMaterialPisoFact_node1701631211206",
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"streamingBatchInterval": 100,
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"connection": {
+					"value": "Jdbc connection",
+					"label": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"value": "public",
+					"label": "public",
+					"description": null
+				},
+				"catalogDatabase": null,
+				"catalogRedshiftTable": null,
+				"catalogRedshiftSchema": null,
+				"table": {
+					"value": "AsmaPorMaterialPisoFact",
+					"label": "AsmaPorMaterialPisoFact",
+					"description": "public"
+				},
+				"catalogTable": null,
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"iamRole": null,
+				"sampleQuery": null,
+				"preAction": null,
+				"postAction": null,
+				"action": "drop",
+				"tableSchema": [
+					{
+						"value": "materialpiso",
+						"label": "materialpiso",
+						"description": "INTEGER"
+					},
+					{
+						"value": "fecha",
+						"label": "fecha",
+						"description": "INTEGER"
+					},
+					{
+						"value": "sum(tieneasma)",
+						"label": "sum(tieneasma)",
+						"description": "BIGINT"
+					}
+				],
+				"selectedColumns": [],
+				"crawlerConnection": null,
+				"tablePrefix": null,
+				"upsert": false,
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"mergeClause": null,
+				"stagingTable": "public.AsmaPorMaterialPisoFact_temp_5ebba4",
+				"advancedOptions": []
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701653879837": {
+			"nodeId": "node-1701653879837",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701593664198"
+			],
+			"name": "Change Schema Estrato Fact",
+			"generatedNodeName": "ChangeSchemaEstratoFact_node1701653879837",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"localidad"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tieneasma",
+					"fromPath": [
+						"tieneasma"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"estrato"
+					],
+					"toType": "float",
+					"fromType": "float",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "materialpared",
+					"fromPath": [
+						"materialpared"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialpiso",
+					"fromPath": [
+						"materialpiso"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"humedad"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "fecha",
+					"fromPath": [
+						"fecha"
+					],
+					"toType": "int",
+					"fromType": "int",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "uuidencuestado",
+					"fromPath": [
+						"uuidencuestado"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2,
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string"
+					},
+					{
+						"key": "tieneasma",
+						"fullPath": [
+							"tieneasma"
+						],
+						"type": "int"
+					},
+					{
+						"key": "estrato",
+						"fullPath": [
+							"estrato"
+						],
+						"type": "float"
+					},
+					{
+						"key": "materialpared",
+						"fullPath": [
+							"materialpared"
+						],
+						"type": "int"
+					},
+					{
+						"key": "materialpiso",
+						"fullPath": [
+							"materialpiso"
+						],
+						"type": "int"
+					},
+					{
+						"key": "humedad",
+						"fullPath": [
+							"humedad"
+						],
+						"type": "int"
+					},
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int"
+					},
+					{
+						"key": "uuidencuestado",
+						"fullPath": [
+							"uuidencuestado"
+						],
+						"type": "string"
+					}
+				]
+			]
+		},
+		"node-1701409790577": {
+			"nodeId": "node-1701409790577",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701628968630"
+			],
+			"name": "Change Schema 2017",
+			"generatedNodeName": "ChangeSchema2017_node1701409790577",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"localidad_tex"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "dptompio",
+					"fromPath": [
+						"dptompio"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tieneAsma",
+					"fromPath": [
+						"npcfp14i"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"nvcbp11aa"
+					],
+					"toType": "float",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "npcfp14h",
+					"fromPath": [
+						"npcfp14h"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "npcfp36",
+					"fromPath": [
+						"npcfp36"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp9",
+					"fromPath": [
+						"nvcbp9"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialPared",
+					"fromPath": [
+						"nvcbp12"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp13",
+					"fromPath": [
+						"nvcbp13"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialPiso",
+					"fromPath": [
+						"nvcbp14a"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "npcfp14b",
+					"fromPath": [
+						"npcfp14b"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp14i",
+					"fromPath": [
+						"nvcbp14i"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp15d",
+					"fromPath": [
+						"nvcbp15d"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"nvcbp8a"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8b",
+					"fromPath": [
+						"nvcbp8b"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp4",
+					"fromPath": [
+						"nvcbp4"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8d",
+					"fromPath": [
+						"nvcbp8d"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8c",
+					"fromPath": [
+						"nvcbp8c"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8e",
+					"fromPath": [
+						"nvcbp8e"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8g",
+					"fromPath": [
+						"nvcbp8g"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp10",
+					"fromPath": [
+						"nvcbp10"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701409638716": {
+			"nodeId": "node-1701409638716",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Upload Data 2017",
+			"generatedNodeName": "UploadData2017_node1701409638716",
+			"classification": "DataSource",
+			"type": "S3",
+			"isCatalog": false,
+			"format": "csv",
+			"paths": [
+				"s3://uniandes-bi-lab3-source-juans/datos_encuesta_ETL_2017.csv"
+			],
+			"compressionType": null,
+			"exclusions": [],
+			"groupFiles": null,
+			"groupSize": null,
+			"recurse": true,
+			"maxBand": null,
+			"maxFilesInBand": null,
+			"additionalOptions": {
+				"boundedSize": null,
+				"boundedFiles": null,
+				"enableSamplePath": false,
+				"samplePath": "s3://uniandes-bi-lab3-source-juans/datos_encuesta_ETL_2017.csv",
+				"boundedOption": null
+			},
+			"separator": ",",
+			"escaper": "",
+			"quoteChar": "\"",
+			"multiline": null,
+			"withHeader": true,
+			"writeHeader": null,
+			"skipFirst": null,
+			"optimizePerformance": false,
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad_tex",
+						"fullPath": [
+							"localidad_tex"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "dptompio",
+						"fullPath": [
+							"dptompio"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp14i",
+						"fullPath": [
+							"npcfp14i"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp11aa",
+						"fullPath": [
+							"nvcbp11aa"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp14h",
+						"fullPath": [
+							"npcfp14h"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp36",
+						"fullPath": [
+							"npcfp36"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp9",
+						"fullPath": [
+							"nvcbp9"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp12",
+						"fullPath": [
+							"nvcbp12"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp13",
+						"fullPath": [
+							"nvcbp13"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp14a",
+						"fullPath": [
+							"nvcbp14a"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp14b",
+						"fullPath": [
+							"npcfp14b"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp14i",
+						"fullPath": [
+							"nvcbp14i"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp15d",
+						"fullPath": [
+							"nvcbp15d"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8a",
+						"fullPath": [
+							"nvcbp8a"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8b",
+						"fullPath": [
+							"nvcbp8b"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp4",
+						"fullPath": [
+							"nvcbp4"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8d",
+						"fullPath": [
+							"nvcbp8d"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8c",
+						"fullPath": [
+							"nvcbp8c"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8e",
+						"fullPath": [
+							"nvcbp8e"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8g",
+						"fullPath": [
+							"nvcbp8g"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp10",
+						"fullPath": [
+							"nvcbp10"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701409640667": {
+			"nodeId": "node-1701409640667",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Upload Data 2021",
+			"generatedNodeName": "UploadData2021_node1701409640667",
+			"classification": "DataSource",
+			"type": "S3",
+			"isCatalog": false,
+			"format": "csv",
+			"paths": [
+				"s3://uniandes-bi-lab3-source-juans/datos_encuesta_ETL_2021.csv"
+			],
+			"compressionType": null,
+			"exclusions": [],
+			"groupFiles": null,
+			"groupSize": null,
+			"recurse": true,
+			"maxBand": null,
+			"maxFilesInBand": null,
+			"additionalOptions": {
+				"boundedSize": null,
+				"boundedFiles": null,
+				"enableSamplePath": false,
+				"samplePath": "s3://uniandes-bi-lab3-source-juans/datos_encuesta_ETL_2021.csv",
+				"boundedOption": null
+			},
+			"separator": ",",
+			"escaper": "",
+			"quoteChar": "\"",
+			"multiline": null,
+			"withHeader": true,
+			"writeHeader": null,
+			"skipFirst": null,
+			"outputSchemas": [
+				[
+					{
+						"key": "dpto",
+						"fullPath": [
+							"dpto"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "mpio",
+						"fullPath": [
+							"mpio"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nombre_localidad",
+						"fullPath": [
+							"nombre_localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nombre_estrato",
+						"fullPath": [
+							"nombre_estrato"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp15i",
+						"fullPath": [
+							"nvcbp15i"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp14f",
+						"fullPath": [
+							"npcfp14f"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp11aa",
+						"fullPath": [
+							"nvcbp11aa"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp14h",
+						"fullPath": [
+							"npcfp14h"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp36",
+						"fullPath": [
+							"npcfp36"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp9",
+						"fullPath": [
+							"nvcbp9"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp12",
+						"fullPath": [
+							"nvcbp12"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp13",
+						"fullPath": [
+							"nvcbp13"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp14a",
+						"fullPath": [
+							"nvcbp14a"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "npcfp14b",
+						"fullPath": [
+							"npcfp14b"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp14i",
+						"fullPath": [
+							"nvcbp14i"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp15d",
+						"fullPath": [
+							"nvcbp15d"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8a",
+						"fullPath": [
+							"nvcbp8a"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8b",
+						"fullPath": [
+							"nvcbp8b"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp4",
+						"fullPath": [
+							"nvcbp4"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8d",
+						"fullPath": [
+							"nvcbp8d"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8c",
+						"fullPath": [
+							"nvcbp8c"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8e",
+						"fullPath": [
+							"nvcbp8e"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp8g",
+						"fullPath": [
+							"nvcbp8g"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nvcbp10",
+						"fullPath": [
+							"nvcbp10"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701629180018": {
+			"nodeId": "node-1701629180018",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701409640667"
+			],
+			"name": "Drop Null Fields 2021",
+			"generatedNodeName": "DropNullFields2021_node1701629180018",
+			"classification": "Transform",
+			"type": "DropNullFields",
+			"nullCheckBoxList": {
+				"isEmpty": true,
+				"isNullString": true,
+				"isNegOne": true
+			},
+			"nullTextList": [],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701644401802": {
+			"nodeId": "node-1701644401802",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701563060054"
+			],
+			"name": "SQL Query",
+			"generatedNodeName": "SQLQuery_node1701644401802",
+			"classification": "Transform",
+			"type": "SqlCode",
+			"sqlAliases": [
+				{
+					"from": "node-1701563060054",
+					"alias": "myDataSource"
+				}
+			],
+			"outputSchemas": [
+				[
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"sqlQuery": "select distinct localidad from myDataSource",
+			"codeGenVersion": 2
+		},
+		"node-1701409806058": {
+			"nodeId": "node-1701409806058",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701629180018"
+			],
+			"name": "Change Schema 2021",
+			"generatedNodeName": "ChangeSchema2021_node1701409806058",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "dpto",
+					"fromPath": [
+						"dpto"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "mpio",
+					"fromPath": [
+						"mpio"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "localidad",
+					"fromPath": [
+						"nombre_localidad"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nombre_estrato",
+					"fromPath": [
+						"nombre_estrato"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp15i",
+					"fromPath": [
+						"nvcbp15i"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tieneAsma",
+					"fromPath": [
+						"npcfp14f"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "estrato",
+					"fromPath": [
+						"nvcbp11aa"
+					],
+					"toType": "float",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "npcfp14h",
+					"fromPath": [
+						"npcfp14h"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "npcfp36",
+					"fromPath": [
+						"npcfp36"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp9",
+					"fromPath": [
+						"nvcbp9"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "materialParedes",
+					"fromPath": [
+						"nvcbp12"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "materialPiso",
+					"fromPath": [
+						"nvcbp13"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp14a",
+					"fromPath": [
+						"nvcbp14a"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "npcfp14b",
+					"fromPath": [
+						"npcfp14b"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp14i",
+					"fromPath": [
+						"nvcbp14i"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp15d",
+					"fromPath": [
+						"nvcbp15d"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "humedad",
+					"fromPath": [
+						"nvcbp8a"
+					],
+					"toType": "int",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8b",
+					"fromPath": [
+						"nvcbp8b"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp4",
+					"fromPath": [
+						"nvcbp4"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8d",
+					"fromPath": [
+						"nvcbp8d"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8c",
+					"fromPath": [
+						"nvcbp8c"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8e",
+					"fromPath": [
+						"nvcbp8e"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp8g",
+					"fromPath": [
+						"nvcbp8g"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "nvcbp10",
+					"fromPath": [
+						"nvcbp10"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701645627033": {
+			"nodeId": "node-1701645627033",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1701645187304"
+			],
+			"name": "Derived Column",
+			"generatedNodeName": "DerivedColumn_node1701645627033",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"nombre"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				},
+				{
+					"name": "expr",
+					"value": [
+						"CASE     WHEN materialpared = 1 THEN 'Bloque, ladrillo, piedra, madera pulida'     WHEN materialpared = 2 THEN 'Tapia pisada, adobe'     WHEN materialpared = 3 THEN 'Bahareque revocado'     WHEN materialpared = 4 THEN 'Bahareque sin revocar'     WHEN materialpared = 5 THEN 'Madera burda, tabla, tablón'     WHEN materialpared = 6 THEN 'Material prefabricado'     WHEN materialpared = 7 THEN 'Guadua, caña, esterilla, otro vegetal'     WHEN materialpared = 8 THEN 'Zinc, tela, lona, cartón, latas, desechos, plástico'     ELSE 'Sin paredes' END"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_derived",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_derived.py",
+			"version": "1.0.0",
+			"transformName": "gs_derived",
+			"outputSchemas": [
+				[
+					{
+						"key": "materialpared",
+						"fullPath": [
+							"materialpared"
+						],
+						"type": "int",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "nombre",
+						"fullPath": [
+							"nombre"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1701656340617": {
+			"classification": "Transform",
+			"type": "Aggregate",
+			"name": "Aggregate Asma",
+			"inputs": [
+				"node-1701655443243"
+			],
+			"groups": [
+				"fecha",
+				"localidad"
+			],
+			"aggs": [
+				{
+					"column": "tieneasma",
+					"aggFunc": "sum"
+				}
+			],
+			"generatedNodeName": "AggregateAsma_node1701656340617",
+			"codeGenVersion": 2,
+			"outputSchemas": [
+				[
+					{
+						"key": "fecha",
+						"fullPath": [
+							"fecha"
+						],
+						"type": "int"
+					},
+					{
+						"key": "localidad",
+						"fullPath": [
+							"localidad"
+						],
+						"type": "string"
+					},
+					{
+						"key": "sum(tieneasma)",
+						"fullPath": [
+							"sum(tieneasma)"
+						],
+						"type": "long"
+					}
+				]
+			]
+		},
+		"node-1701656454113": {
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"name": "Load Asma Por Localidad Fact",
+			"inputs": [
+				"node-1701656340617"
+			],
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"action": "drop",
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"upsert": false,
+				"selectedColumns": [],
+				"tableSchema": [
+					{
+						"value": "fecha",
+						"label": "fecha",
+						"description": "INTEGER"
+					},
+					{
+						"value": "localidad",
+						"label": "localidad",
+						"description": "VARCHAR"
+					},
+					{
+						"value": "sum(tieneasma)",
+						"label": "sum(tieneasma)",
+						"description": "BIGINT"
+					}
+				],
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"advancedOptions": [],
+				"connection": {
+					"label": "Jdbc connection",
+					"value": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"label": "public",
+					"value": "public"
+				},
+				"table": {
+					"label": "asmaPorLocalidadFact",
+					"value": "asmaPorLocalidadFact",
+					"description": "public"
+				},
+				"stagingTable": "public.asmaPorLocalidadFact_temp_9f09d9"
+			},
+			"generatedNodeName": "LoadAsmaPorLocalidadFact_node1701656454113",
+			"codeGenVersion": 2
+		},
+		"node-1701656639966": {
+			"classification": "Transform",
+			"type": "Filter",
+			"name": "FilterTieneAsma",
+			"inputs": [
+				"node-1701653879837"
+			],
+			"logicalOperator": "AND",
+			"filters": [
+				{
+					"operation": "EQ",
+					"negated": false,
+					"values": [
+						{
+							"type": "COLUMNEXTRACTED",
+							"value": "tieneasma"
+						},
+						{
+							"type": "CONSTANT",
+							"value": 1
+						}
+					]
+				}
+			],
+			"generatedNodeName": "FilterTieneAsma_node1701656639966",
+			"codeGenVersion": 2
+		},
+		"node-1701656772374": {
+			"classification": "Transform",
+			"type": "Aggregate",
+			"name": "Aggregate Asma",
+			"inputs": [
+				"node-1701656639966"
+			],
+			"groups": [
+				"estrato",
+				"fecha"
+			],
+			"aggs": [
+				{
+					"column": "tieneasma",
+					"aggFunc": "sum"
+				}
+			],
+			"generatedNodeName": "AggregateAsma_node1701656772374",
+			"codeGenVersion": 2
+		},
+		"node-1701657159733": {
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"name": "Load Asma Por Estrato Fact",
+			"inputs": [
+				"node-1701656772374"
+			],
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"action": "append",
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"upsert": false,
+				"selectedColumns": [],
+				"tableSchema": [
+					{
+						"value": "estrato",
+						"label": "estrato",
+						"description": "REAL"
+					},
+					{
+						"value": "fecha",
+						"label": "fecha",
+						"description": "INTEGER"
+					},
+					{
+						"value": "sum(tieneasma)",
+						"label": "sum(tieneasma)",
+						"description": "INTEGER"
+					}
+				],
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"advancedOptions": [],
+				"connection": {
+					"label": "Jdbc connection",
+					"value": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"label": "public",
+					"value": "public"
+				},
+				"table": {
+					"label": "asmaPorLocalidadFact",
+					"value": "asmaPorLocalidadFact",
+					"description": "public"
+				},
+				"stagingTable": "public.asmaPorLocalidadFact_temp_856ce9"
+			},
+			"generatedNodeName": "LoadAsmaPorEstratoFact_node1701657159733",
+			"codeGenVersion": 2
+		},
+		"node-1701657253594": {
+			"classification": "Transform",
+			"type": "Filter",
+			"name": "FiltrarTieneAsma",
+			"inputs": [
+				"node-1701653914289"
+			],
+			"logicalOperator": "OR",
+			"filters": [
+				{
+					"operation": "EQ",
+					"negated": false,
+					"values": [
+						{
+							"type": "COLUMNEXTRACTED",
+							"value": "tieneasma"
+						},
+						{
+							"type": "CONSTANT",
+							"value": 1
+						}
+					]
+				}
+			],
+			"generatedNodeName": "FiltrarTieneAsma_node1701657253594",
+			"codeGenVersion": 2
+		},
+		"node-1701657275330": {
+			"classification": "Transform",
+			"type": "Filter",
+			"name": "FiltrarTieneAsma",
+			"inputs": [
+				"node-1701653891513"
+			],
+			"logicalOperator": "AND",
+			"filters": [
+				{
+					"operation": "EQ",
+					"negated": false,
+					"values": [
+						{
+							"type": "COLUMNEXTRACTED",
+							"value": "tieneasma"
+						},
+						{
+							"type": "CONSTANT",
+							"value": 1
+						}
+					]
+				}
+			],
+			"generatedNodeName": "FiltrarTieneAsma_node1701657275330",
+			"codeGenVersion": 2
+		},
+		"node-1701657295089": {
+			"classification": "Transform",
+			"type": "Aggregate",
+			"name": "Aggregate Asma",
+			"inputs": [
+				"node-1701657253594"
+			],
+			"groups": [
+				"humedad",
+				"fecha"
+			],
+			"aggs": [
+				{
+					"column": "tieneasma",
+					"aggFunc": "sum"
+				}
+			],
+			"generatedNodeName": "AggregateAsma_node1701657295089",
+			"codeGenVersion": 2
+		},
+		"node-1701657305934": {
+			"classification": "Transform",
+			"type": "Aggregate",
+			"name": "Aggregate Asma",
+			"inputs": [
+				"node-1701657275330"
+			],
+			"groups": [
+				"materialpared",
+				"fecha"
+			],
+			"aggs": [
+				{
+					"column": "tieneasma",
+					"aggFunc": "sum"
+				}
+			],
+			"generatedNodeName": "AggregateAsma_node1701657305934",
+			"codeGenVersion": 2
+		},
+		"node-1701657508709": {
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"name": "Load Humedad Fact",
+			"inputs": [
+				"node-1701657295089"
+			],
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"action": "drop",
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"upsert": false,
+				"selectedColumns": [],
+				"tableSchema": [
+					{
+						"value": "humedad",
+						"label": "humedad",
+						"description": "INTEGER"
+					},
+					{
+						"value": "fecha",
+						"label": "fecha",
+						"description": "INTEGER"
+					},
+					{
+						"value": "sum(tieneasma)",
+						"label": "sum(tieneasma)",
+						"description": "INTEGER"
+					}
+				],
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"advancedOptions": [],
+				"connection": {
+					"label": "Jdbc connection",
+					"value": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"label": "public",
+					"value": "public"
+				},
+				"table": {
+					"label": "AsmaPorHumedadFact",
+					"value": "AsmaPorHumedadFact",
+					"description": "public"
+				},
+				"stagingTable": "public.AsmaPorHumedadFact_temp_674a5b"
+			},
+			"generatedNodeName": "LoadHumedadFact_node1701657508709",
+			"codeGenVersion": 2
+		},
+		"node-1701657523860": {
+			"classification": "DataSink",
+			"type": "AmazonRedshift",
+			"name": "Load Material Pared Fact",
+			"inputs": [
+				"node-1701657305934"
+			],
+			"data": {
+				"accessType": "connection",
+				"sourceType": "table",
+				"action": "drop",
+				"mergeAction": "simple",
+				"mergeWhenMatched": "update",
+				"mergeWhenNotMatched": "insert",
+				"upsert": false,
+				"selectedColumns": [],
+				"tableSchema": [
+					{
+						"value": "materialpared",
+						"label": "materialpared",
+						"description": "INTEGER"
+					},
+					{
+						"value": "fecha",
+						"label": "fecha",
+						"description": "INTEGER"
+					},
+					{
+						"value": "sum(tieneasma)",
+						"label": "sum(tieneasma)",
+						"description": "INTEGER"
+					}
+				],
+				"tempDir": "s3://aws-glue-assets-886145748253-us-east-1/temporary/",
+				"advancedOptions": [],
+				"connection": {
+					"label": "Jdbc connection",
+					"value": "Jdbc connection",
+					"description": "-"
+				},
+				"schema": {
+					"label": "public",
+					"value": "public"
+				},
+				"table": {
+					"label": "AsmaPorMaterialParedFact",
+					"value": "AsmaPorMaterialParedFact",
+					"description": "public"
+				},
+				"stagingTable": "public.AsmaPorMaterialParedFact_temp_453186"
+			},
+			"generatedNodeName": "LoadMaterialParedFact_node1701657523860",
+			"codeGenVersion": 2
+		}
+	},
+	"hasBeenSaved": false,
+	"redshift-s3-select": "s3://aws-glue-assets-886145748253-us-east-1/temporary/"
+}
